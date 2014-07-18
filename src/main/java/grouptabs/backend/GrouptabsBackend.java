@@ -8,13 +8,13 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-import javax.ws.rs.core.MultivaluedMap;
+import java.util.EnumSet;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
-
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerResponse;
-import com.sun.jersey.spi.container.ContainerResponseFilter;
 
 public class GrouptabsBackend extends Application<BackendConfiguration> {
 
@@ -28,27 +28,18 @@ public class GrouptabsBackend extends Application<BackendConfiguration> {
 		bootstrap.addBundle(new AssetsBundle("/assets/favicon.ico", "/favicon.ico", null, "favicon"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run(BackendConfiguration configuration, Environment environment) throws Exception {
 		
 		// Support CORS
-		environment.jersey().getResourceConfig().getContainerResponseFilters().add(new ContainerResponseFilter() {
-			public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
-				MultivaluedMap<String, Object> headers = response.getHttpHeaders();
-				headers.add("Access-Control-Allow-Origin", "*");
-				headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,HEAD,OPTIONS");
-				headers.add("Access-Control-Allow-Credentials", "true");
-
-				String reqHead = request.getHeaderValue("Access-Control-Request-Headers");
-				if (null != reqHead && !reqHead.equals("")) {
-					headers.add("Access-Control-Allow-Headers", reqHead);
-				}
-
-				return response;
-			}
-		});
-
+	    FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+	    filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+	    filter.setInitParameter("allowedOrigins", "*"); // allowed origins comma separated
+	    filter.setInitParameter("allowedHeaders", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+	    filter.setInitParameter("allowedMethods", "GET,PUT,POST,DELETE,OPTIONS,HEAD");
+	    filter.setInitParameter("preflightMaxAge", "5184000"); // 2 months
+	    filter.setInitParameter("allowCredentials", "true");
+	    
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
 
