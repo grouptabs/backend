@@ -1,8 +1,8 @@
-package grouptabs.backend.resources;
+package grouptabs.backend.resource;
 
 import grouptabs.backend.dao.UserDAO;
-import grouptabs.backend.representations.TabUser;
-import grouptabs.backend.representations.User;
+import grouptabs.backend.representation.TabUser;
+import grouptabs.backend.representation.User;
 
 import java.util.List;
 import java.util.Map;

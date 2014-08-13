@@ -48,7 +48,7 @@ delete tab for user
 
 
 ### /tabs/{tab ID}/transactions[?since=YYYY-MM-DD]
-&rarr; better user paging parameters "from" and "to"
+&rarr; better use paging parameters "from" and "to"
 
 GET  
 get all transactions in tab

@@ -1,4 +1,4 @@
-package grouptabs.backend.representations;
+package grouptabs.backend.representation;
 
 public class TabUser {
 	

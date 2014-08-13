@@ -10,8 +10,6 @@ public class BackendConfiguration extends Configuration {
 	@JsonProperty
 	private DataSourceFactory database = new DataSourceFactory();
 	
-	// TODO integrate jetty port
-
 	public DataSourceFactory getDataSourceFactory() {
 		return database;
 	}

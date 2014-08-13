@@ -1,7 +1,7 @@
 package grouptabs.backend;
 
-import grouptabs.backend.resources.TabResource;
-import grouptabs.backend.resources.UserResource;
+import grouptabs.backend.resource.TabResource;
+import grouptabs.backend.resource.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.jdbi.DBIFactory;

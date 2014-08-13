@@ -1,9 +1,9 @@
 package grouptabs.backend.dao;
 
-import grouptabs.backend.representations.Tab;
-import grouptabs.backend.representations.TabUser;
-import grouptabs.backend.representations.Transaction;
-import grouptabs.backend.representations.TransactionParticipant;
+import grouptabs.backend.representation.Tab;
+import grouptabs.backend.representation.TabUser;
+import grouptabs.backend.representation.Transaction;
+import grouptabs.backend.representation.TransactionParticipant;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -1,7 +1,7 @@
 package grouptabs.backend.dao;
 
-import grouptabs.backend.representations.TabUser;
-import grouptabs.backend.representations.User;
+import grouptabs.backend.representation.TabUser;
+import grouptabs.backend.representation.User;
 
 import java.util.List;
 
