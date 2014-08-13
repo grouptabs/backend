@@ -16,96 +16,96 @@ target interface
 ----------------
 ### /tabs
 
-GET
-list of all accessible tabs for the user
-empty list while not authenticated (better HTTP error code? --> check)
+GET  
+list of all accessible tabs for the user  
+empty list while not authenticated (better HTTP error code? --} check)
 
-PUT
+PUT  
 not allowed
 
-POST
+POST  
 create new tab and return tab ID
 
-DELETE
+DELETE  
 not allowed (better allow DELETE if tab has no transactions?)
 
 
-### /tabs/<tab ID>
+### /tabs/{tab ID}
 
-GET
-access tab with <tab ID>
-~~<tab ID> is int or long (to be decided) encoded as ascii string (like doodle links)~~
---> a random 16-character string is stored alongside the tab ID as key for external access
+GET  
+access tab with {tab ID}  
+~~{tab ID} is int or long (to be decided) encoded as ascii string (like doodle links)~~  
+&rarr; a random 16-character string is stored alongside the tab ID as key for external access
 
-PUT
+PUT  
 change tab properties (tab name)
 
-POST
+POST  
 not allowed
 
-DELETE
+DELETE  
 delete tab for user
 
 
-### /tabs/<tab ID>/transactions[?since=YYYY-MM-DD]
---> better user paging parameters "from" and "to"
+### /tabs/{tab ID}/transactions[?since=YYYY-MM-DD]
+&rarr; better user paging parameters "from" and "to"
 
-GET
+GET  
 get all transactions in tab
 
-PUT
+PUT  
 not allowed
 
-POST
+POST  
 create new transaction in tab
 
-DELETE
+DELETE  
 not allowed
 
 
-### /tabs/<tab ID>/transactions/<transaction ID>
+### /tabs/{tab ID}/transactions/{transaction ID}
 
-GET
-get single transaction with <transaction ID>
+GET  
+get single transaction with {transaction ID}
 
-PUT
-modify transaction with <transaction ID>
+PUT  
+modify transaction with {transaction ID}
 
-POST
+POST  
 not allowed
 
-DELETE
-delete transaction with <transaction ID>
+DELETE  
+delete transaction with {transaction ID}
 
 
 ### /users
 
-GET
+GET  
 get all users
 
-PUT
+PUT  
 not allowed
 
-POST
+POST  
 create new user and return ID
 
-DELETE
+DELETE  
 not allowed
 
 
-### /users/<user ID>
+### /users/{user ID}
 
-GET
-get user data for user with <user ID>
+GET  
+get user data for user with {user ID}
 
-PUT
-modify user with <user ID>
+PUT  
+modify user with {user ID}
 
-POST
+POST  
 not allowed
 
-DELETE
-delete user with <user ID>
+DELETE  
+delete user with {user ID}
 
 
 Database
@@ -119,7 +119,7 @@ JDBC URL: `jdbc:h2:grouptabs`
 
 ### Create Script
 ```sql
--- kill the entire database!
+-- kill the entire database(!)
 DROP ALL OBJECTS;
 
 -- create entities
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS Participant (
 );
 
 
--- test data
+-- create test data
 INSERT INTO User VALUES (NULL, 'tilman@example.com', 'Tilman', 'pw'), (NULL, 'martin@example.com', 'Martin', 'pw'), (NULL, 'user3@example.com', 'User 3', 'pw'), (NULL, 'user4@example.com', 'User 4', 'pw');
 INSERT INTO Tab VALUES (NULL, 'c5nq1ayy1g72pbwq', 'Badminton'), (NULL, 'p66a5hd45s861ya5', 'Skatgruppe');
 INSERT INTO Tab_User VALUES (1, 1, NULL), (1, 2, 'xmartin'), (1, 3, NULL), (1, 4, 'Userrrr4'), (2, 1, NULL), (2, 2, NULL), (2, 3, NULL);
@@ -176,5 +176,9 @@ INSERT INTO Participant VALUES
  (4, 3, -49.95),
  (5, 1, -8.00),
  (5, 2, -10.00);
+ 
+ 
+ -- clean database file and close database
+ -- SHUTDOWN COMPACT;
 ```
 
