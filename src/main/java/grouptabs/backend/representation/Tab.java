@@ -19,8 +19,6 @@ public class Tab {
 		
 		// XXX check if key already exists
 		this.key = Tab.generateKey(16);
-		
-		// TODO retrieve ID
 	}
 	
 	public Integer getId() {

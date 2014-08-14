@@ -33,9 +33,8 @@ not allowed (better allow DELETE if tab has no transactions?)
 ### /tabs/{tab ID}
 
 GET  
-access tab with {tab ID}  
-~~{tab ID} is int or long (to be decided) encoded as ascii string (like doodle links)~~  
-&rarr; a random 16-character string is stored alongside the tab ID as key for external access
+access tab with {tab key}  
+(a random 16-character string is stored alongside the tab ID as key for external access)
 
 PUT  
 change tab properties (tab name)
@@ -135,6 +134,8 @@ CREATE TABLE IF NOT EXISTS Tab (
   key VARCHAR(16) UNIQUE NOT NULL,
   name VARCHAR(255) NOT NULL,
 );
+
+CREATE INDEX IdxKey ON Tab(key);
 
 CREATE TABLE IF NOT EXISTS Tab_User (
   tabId INT NOT NULL REFERENCES Tab(id) ON UPDATE CASCADE,
