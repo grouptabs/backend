@@ -4,7 +4,7 @@ import grouptabs.backend.dao.TabDAO;
 import grouptabs.backend.representation.Tab;
 import grouptabs.backend.representation.TabUser;
 import grouptabs.backend.representation.Transaction;
-import grouptabs.backend.representation.TransactionParticipant;
+import grouptabs.backend.representation.TransactionContribution;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -91,9 +91,9 @@ public class TabResource {
 				transaction.getDescription(), transaction.getType().toString());
 		
 		// store particiants and their expenses
-		List<TransactionParticipant> participants = transaction.getParticipants();
-		for (TransactionParticipant participant : participants) {
-			tabDao.insertTransactionParticipant(transactionId, participant.getUserId(), participant.getAmount());
+		List<TransactionContribution> contributions = transaction.getParticipants();
+		for (TransactionContribution contribution : contributions) {
+			tabDao.insertTransactionParticipant(transactionId, contribution.getParticipant(), contribution.getAmount());
 		}
 		
 		tabDao.commit();
@@ -133,9 +133,9 @@ public class TabResource {
 		tabDao.deleteParticipantsForTransaction(transaction.getId());
 		
 		// store particiants and their expenses
-		List<TransactionParticipant> participants = transaction.getParticipants();
-		for (TransactionParticipant participant : participants) {
-			tabDao.insertTransactionParticipant(transactionId, participant.getUserId(), participant.getAmount());
+		List<TransactionContribution> contributions = transaction.getParticipants();
+		for (TransactionContribution contribution : contributions) {
+			tabDao.insertTransactionParticipant(transactionId, contribution.getParticipant(), contribution.getAmount());
 		}
 		
 		// commit database transaction
@@ -143,7 +143,7 @@ public class TabResource {
 		
 		return Response.ok(
 				new Transaction(transaction.getId(), transaction.getTabId(), transaction.getDate(), transaction.getTimestamp(),
-						transaction.getDescription(), participants, transaction.getType())).build();
+						transaction.getDescription(), contributions, transaction.getType())).build();
 	}
 	
 	@DELETE

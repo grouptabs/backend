@@ -47,7 +47,6 @@ public class GrouptabsBackend extends Application<BackendConfiguration> {
 		// environment.jersey().register(new BasicAuthProvider<User>(new BackendAuthenticator(jdbi), "Web Service Realm"));
 
 		environment.jersey().register(new TabResource(jdbi));
-		environment.jersey().register(new UserResource(jdbi));
 	}
 
 }

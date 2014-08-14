@@ -151,9 +151,9 @@ CREATE TABLE IF NOT EXISTS Transaction (
   type VARCHAR(30) NOT NULL CHECK (type IN ('SHARED', 'DIRECT'))
 );
 
-CREATE TABLE IF NOT EXISTS Participant (
+CREATE TABLE IF NOT EXISTS Contribution (
 	transactionId BIGINT NOT NULL REFERENCES Transaction(id) ON UPDATE CASCADE,
-	userId INT NOT NULL REFERENCES User(id) ON UPDATE CASCADE,
+	participant VARCHAR(255) NOT NULL,
 	amount DECIMAL(20,2) NOT NULL,
 );
 
@@ -168,14 +168,14 @@ INSERT INTO Transaction VALUES
  (NULL, 2, '2014-06-10', '2014-06-10 08:46:05', 'Skatkarten', 'SHARED'),
  (NULL, 2, '2014-06-10', '2014-06-10 08:49:18', 'Mischautomat', 'SHARED'),
  (NULL, 1, '2014-06-20', '2014-06-20 19:04:07', 'Eintritt Badminton-Halle', 'DIRECT');
-INSERT INTO Participant VALUES
- (1, 1, -119.95),
- (2, 2, -169.95),
- (3, 2, -8.80),
- (4, 1, -20.00),
- (4, 3, -49.95),
- (5, 1, -8.00),
- (5, 2, -10.00);
+INSERT INTO Contribution VALUES
+ (1, 'Tilman', -119.95),
+ (2, 'Martin', -169.95),
+ (3, 'Martin', -8.80),
+ (4, 'Tilman', -20.00),
+ (4, 'User 3', -49.95),
+ (5, 'Tilman', -8.00),
+ (5, 'Martin', -10.00);
  
  
  -- clean database file and close database

@@ -3,7 +3,7 @@ package grouptabs.backend.dao;
 import grouptabs.backend.representation.Tab;
 import grouptabs.backend.representation.TabUser;
 import grouptabs.backend.representation.Transaction;
-import grouptabs.backend.representation.TransactionParticipant;
+import grouptabs.backend.representation.TransactionContribution;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -27,6 +27,10 @@ public interface TabDAO extends Transactional<TabDAO> {
 	public Tab getTab(@Bind("id") Integer id);
 	
 	@MapResultAsBean
+	@SqlQuery("SELECT * FROM Tab WHERE key = :key")
+	public Tab getTabByKey(@Bind("key") String key);
+	
+	@MapResultAsBean
 	@SqlQuery("SELECT * FROM Tab_User WHERE tabId = :id")
 	public List<TabUser> getTabUsers(@Bind("id") Integer id);
 	
@@ -35,8 +39,8 @@ public interface TabDAO extends Transactional<TabDAO> {
 	public Transaction getTransaction(@Bind("id") Long id);
 	
 	@MapResultAsBean
-	@SqlQuery("SELECT userId, amount FROM Participant WHERE transactionId = :transactionId")
-	public List<TransactionParticipant> getParticipantsForTransaction(@Bind("transactionId") Long transactionId);
+	@SqlQuery("SELECT participant, amount FROM Participant WHERE transactionId = :transactionId")
+	public List<TransactionContribution> getParticipantsForTransaction(@Bind("transactionId") Long transactionId);
 	
 	@MapResultAsBean
 	@SqlQuery("SELECT * FROM Transaction WHERE tabId = :tabId ORDER BY DATE DESC, ID DESC LIMIT :limit")
@@ -67,10 +71,10 @@ public interface TabDAO extends Transactional<TabDAO> {
 			@Bind("description") String description,
 			@Bind("type") String type);
 	
-	@SqlUpdate("INSERT INTO Participant (transactionId, userId, amount) values (:transactionId, :userId, :amount)")
+	@SqlUpdate("INSERT INTO Participant (transactionId, participant, amount) values (:transactionId, :participant, :amount)")
 	public void insertTransactionParticipant(
 			@Bind("transactionId") Long transactionId,
-			@Bind("userId") Integer userId,
+			@Bind("participant") String participant,
 			@Bind("amount") BigDecimal amount);
 
 }

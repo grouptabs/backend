@@ -2,20 +2,20 @@ package grouptabs.backend.representation;
 
 import java.math.BigDecimal;
 
-public class TransactionParticipant {
+public class TransactionContribution {
 		
-		private Integer userId;
+		private String participant;
 		private BigDecimal amount;
 		
-		public TransactionParticipant() {
+		public TransactionContribution() {
 		}
 		
-		public Integer getUserId() {
-			return userId;
+		public String getParticipant() {
+			return participant;
 		}
 
-		public void setUserId(Integer userId) {
-			this.userId = userId;
+		public void setParticipant(String participant) {
+			this.participant = participant;
 		}
 
 		public BigDecimal getAmount() {

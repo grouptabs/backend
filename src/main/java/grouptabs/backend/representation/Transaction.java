@@ -16,7 +16,7 @@ public class Transaction {
 	private Date date;
 	private Date timestamp;
 	private String description; 
-	private List<TransactionParticipant> participants;
+	private List<TransactionContribution> participants;
 	private Type type;
 
 	private Integer tabId;
@@ -25,7 +25,7 @@ public class Transaction {
 	public Transaction() {
 	}
 
-	public Transaction(Long id, Integer tabId, Date date, Date timestamp, String description, List<TransactionParticipant> participants, Type type) {
+	public Transaction(Long id, Integer tabId, Date date, Date timestamp, String description, List<TransactionContribution> participants, Type type) {
 		this.id = id;
 		this.tabId = tabId;
 		this.date = date;
@@ -109,14 +109,14 @@ public class Transaction {
 	/**
 	 * @return a list of the participants who are involved in the transaction
 	 */
-	public List<TransactionParticipant> getParticipants() {
+	public List<TransactionContribution> getParticipants() {
 		return participants;
 	}
 	
 	/**
 	 * @param participants a list containing the participation data of all users involved in the transaction
 	 */
-	public void setParticipants(List<TransactionParticipant> participants) {
+	public void setParticipants(List<TransactionContribution> participants) {
 		this.participants = participants;
 	}
 	
