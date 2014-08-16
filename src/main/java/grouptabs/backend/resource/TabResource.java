@@ -46,6 +46,12 @@ public class TabResource {
 		return Response.ok(tabs).build();
 	}
 	
+	@POST
+	public Response createTab(String name) throws URISyntaxException {
+		Tab tab = new Tab(name);
+		tabDao.insertTab(tab.getKey(), tab.getName());
+		return Response.created(new URI(tab.getKey())).type(MediaType.TEXT_PLAIN).build();
+	}
 	
 	// XXX needs authorization
 	@GET
@@ -61,6 +67,19 @@ public class TabResource {
 		tab.setUsers(userMap);
 		
 		return Response.ok(tab).build();
+	}
+	
+	// XXX needs authorization
+	@DELETE
+	@Path("/{tabKey}")
+	public Response deleteTab(@PathParam("tabKey") String tabKey) {
+		Tab tab = tabDao.getTab(tabKey);
+		
+		if (!tabDao.getLastTransactionsForTab(tabKey, 1).isEmpty()) {
+			return Response.status(Status.CONFLICT).entity("Cannot delete tabs that still hold transactions").build();
+		}
+		tabDao.deleteTab(tab.getId());
+		return Response.noContent().build();
 	}
 	
 	@GET
@@ -158,6 +177,5 @@ public class TabResource {
 		tabDao.deleteTransaction(transactionId);
 		return Response.noContent().build();
 	}
-
 
 }

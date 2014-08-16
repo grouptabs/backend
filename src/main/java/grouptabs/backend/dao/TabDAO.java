@@ -30,6 +30,13 @@ public interface TabDAO extends Transactional<TabDAO> {
 	@SqlQuery("SELECT * FROM Tab WHERE key = :key")
 	public Tab getTab(@Bind("key") String key);
 	
+	@GetGeneratedKeys
+	@SqlUpdate("INSERT INTO Tab VALUES (NULL, :key, :name)")
+	public Long insertTab(@Bind("key") String key, @Bind("name") String name);
+	
+	@SqlUpdate("DELETE FROM Tab WHERE id = :id")
+	void deleteTab(@Bind("id") Integer id);
+	
 	@MapResultAsBean
 	@SqlQuery("SELECT * FROM Tab_User WHERE tabId = :id")
 	public List<TabUser> getTabUsers(@Bind("id") Integer id);
