@@ -46,12 +46,14 @@ public class TabResource {
 		return Response.ok(tabs).build();
 	}
 	
+	
+	// XXX needs authorization
 	@GET
-	@Path("/{tabId}")
-	public Response getTab(@PathParam("tabId") Integer tabId) {
-		Tab tab = tabDao.getTab(tabId);
+	@Path("/{tabKey}")
+	public Response getTab(@PathParam("tabKey") String tabKey) {
+		Tab tab = tabDao.getTab(tabKey);
 		
-		List<TabUser> tabUsers = tabDao.getTabUsers(tabId);
+		List<TabUser> tabUsers = tabDao.getTabUsers(tab.getId());
 		Map<Integer, String> userMap = new TreeMap<Integer, String>();
 		for (TabUser tabUser : tabUsers) {
 			userMap.put(tabUser.getUserId(), tabUser.getLocalName());
@@ -62,24 +64,25 @@ public class TabResource {
 	}
 	
 	@GET
-	@Path("/{tabId}/transactions")
-	public Response getLastTransactions(@PathParam("tabId") Integer tabId, @QueryParam("since") String since, @DefaultValue("20") @QueryParam("n") Integer n) {
+	@Path("/{tabKey}/transactions")
+	public Response getLastTransactions(@PathParam("tabKey") String tabKey, @QueryParam("since") String since, @DefaultValue("20") @QueryParam("n") Integer n) {
 		// TODO should this (additionally/alternatively) support parameters "from"/"to"?
 		
 		List<Transaction> transactions;
 		if (since != null) {
-			transactions = tabDao.getLastTransactionsForTab(tabId, since, n);
+			transactions = tabDao.getLastTransactionsForTab(tabKey, since, n);
 		}
 		else {
-			transactions = tabDao.getLastTransactionsForTab(tabId, n);
+			transactions = tabDao.getLastTransactionsForTab(tabKey, n);
 		}
 		return Response.ok(transactions).build();
 	}
 	
 	@POST
-	@Path("/{tabId}/transactions")
-	public Response writeTransaction(@PathParam("tabId") Integer tabId, Transaction transaction) throws URISyntaxException {
-		if (tabId != transaction.getTabId()) {
+	@Path("/{tabKey}/transactions")
+	public Response writeTransaction(@PathParam("tabKey") String tabKey, Transaction transaction) throws URISyntaxException {
+		
+		if (tabDao.getTab(tabKey).getId() != transaction.getTabId()) {
 			return Response.status(Status.BAD_REQUEST).entity("Tab ID must match URI").build();
 		}
 		
@@ -102,16 +105,16 @@ public class TabResource {
 	}
 
 	@GET
-	@Path("/{tabId}/transactions/{transactionId}")
-	public Response getTransaction(@PathParam("tabId") Integer tabId, @PathParam("transactionId") Long transactionId) {
+	@Path("/{tabKey}/transactions/{transactionId}")
+	public Response getTransaction(@PathParam("tabKey") String tabKey, @PathParam("transactionId") Long transactionId) {
 		Transaction transaction = tabDao.getTransaction(transactionId);
 		transaction.setParticipants(tabDao.getParticipantsForTransaction(transaction.getId()));
 		return Response.ok(transaction).build();
 	}
 	
 	@PUT
-	@Path("/{tabId}/transactions/{transactionId}")
-	public Response updateCategory(@PathParam("tabId") Integer tabId, @PathParam("transactionId") Long transactionId, Transaction transaction) {
+	@Path("/{tabKey}/transactions/{transactionId}")
+	public Response updateCategory(@PathParam("tabKey") String tabKey, @PathParam("transactionId") Long transactionId, Transaction transaction) {
 		
 		if (!tabDao.transactionExists(transactionId)) {
 			return Response.status(Status.NOT_FOUND).entity("There is no transaction with ID " + transactionId).build();
@@ -119,7 +122,7 @@ public class TabResource {
 		else if (transactionId != transaction.getId()) {
 			return Response.status(Status.BAD_REQUEST).entity("Transaction ID must match URI").build();
 		}
-		else if (tabId != transaction.getTabId()) {
+		else if (tabDao.getTab(tabKey).getId() != transaction.getTabId()) {
 			return Response.status(Status.BAD_REQUEST).entity("Tab ID must match URI").build();
 		}
 		
@@ -147,8 +150,8 @@ public class TabResource {
 	}
 	
 	@DELETE
-	@Path("/{tabId}/transactions/{transactionId}")
-	public Response deleteTransaction(@PathParam("tabId") Integer tabId, @PathParam("transactionId") Long transactionId) {
+	@Path("/{tabKey}/transactions/{transactionId}")
+	public Response deleteTransaction(@PathParam("tabKey") String tabKey, @PathParam("transactionId") Long transactionId) {
 		if (!tabDao.transactionExists(transactionId)) {
 			return Response.status(Status.NOT_FOUND).entity("There is no transaction with ID " + transactionId).build();
 		}
