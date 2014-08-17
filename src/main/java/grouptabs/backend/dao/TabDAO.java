@@ -37,6 +37,9 @@ public interface TabDAO extends Transactional<TabDAO> {
 	@SqlUpdate("DELETE FROM Tab WHERE id = :id")
 	void deleteTab(@Bind("id") Integer id);
 	
+	@SqlQuery("SELECT id FROM Tab WHERE key = :key")
+	public Integer getTabId(@Bind("key") String key);
+	
 	@MapResultAsBean
 	@SqlQuery("SELECT * FROM Tab_User WHERE tabId = :id")
 	public List<TabUser> getTabUsers(@Bind("id") Integer id);
@@ -50,12 +53,12 @@ public interface TabDAO extends Transactional<TabDAO> {
 	public List<TransactionContribution> getContributionsForTransaction(@Bind("transactionId") Long transactionId);
 	
 	@MapResultAsBean
-	@SqlQuery("SELECT * FROM Transaction WHERE tabKey = :tabKey ORDER BY DATE DESC, ID DESC LIMIT :limit")
-	public List<Transaction> getLastTransactionsForTab(@Bind("tabKey") String tabKey, @Bind("limit") Integer limit);
+	@SqlQuery("SELECT * FROM Transaction WHERE tabId = :tabId ORDER BY DATE DESC, ID DESC LIMIT :limit")
+	public List<Transaction> getLastTransactionsForTab(@Bind("tabId") Integer tabId, @Bind("limit") Integer limit);
 	
 	@MapResultAsBean
-	@SqlQuery("SELECT * FROM Transaction WHERE tabKey = :tabKey AND date > :since ORDER BY DATE DESC, ID DESC LIMIT :limit")
-	public List<Transaction> getLastTransactionsForTab(@Bind("tabKey") String tabKey, @Bind("since") String since, @Bind("limit") Integer limit);
+	@SqlQuery("SELECT * FROM Transaction WHERE tabId = :tabId AND date > :since ORDER BY DATE DESC, ID DESC LIMIT :limit")
+	public List<Transaction> getLastTransactionsForTab(@Bind("tabId") Integer tabId, @Bind("since") String since, @Bind("limit") Integer limit);
 	
 	@SqlQuery("SELECT COUNT(*) FROM Transaction WHERE id = :id")
 	public Boolean transactionExists(@Bind("id") Long id);

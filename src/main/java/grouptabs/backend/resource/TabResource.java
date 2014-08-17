@@ -75,7 +75,7 @@ public class TabResource {
 	public Response deleteTab(@PathParam("tabKey") String tabKey) {
 		Tab tab = tabDao.getTab(tabKey);
 		
-		if (!tabDao.getLastTransactionsForTab(tabKey, 1).isEmpty()) {
+		if (!tabDao.getLastTransactionsForTab(tab.getId(), 1).isEmpty()) {
 			return Response.status(Status.CONFLICT).entity("Cannot delete tabs that still hold transactions").build();
 		}
 		tabDao.deleteTab(tab.getId());
@@ -89,10 +89,10 @@ public class TabResource {
 		
 		List<Transaction> transactions;
 		if (since != null) {
-			transactions = tabDao.getLastTransactionsForTab(tabKey, since, n);
+			transactions = tabDao.getLastTransactionsForTab(tabDao.getTabId(tabKey), since, n);
 		}
 		else {
-			transactions = tabDao.getLastTransactionsForTab(tabKey, n);
+			transactions = tabDao.getLastTransactionsForTab(tabDao.getTabId(tabKey), n);
 		}
 		return Response.ok(transactions).build();
 	}
