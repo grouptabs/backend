@@ -115,7 +115,7 @@ public class TabResource {
 		// store particiants and their expenses
 		List<TransactionContribution> contributions = transaction.getParticipants();
 		for (TransactionContribution contribution : contributions) {
-			tabDao.insertTransactionParticipant(transactionId, contribution.getParticipant(), contribution.getAmount());
+			tabDao.insertTransactionContribution(transactionId, contribution.getParticipant(), contribution.getAmount());
 		}
 		
 		tabDao.commit();
@@ -152,12 +152,12 @@ public class TabResource {
 		tabDao.updateTransaction(transaction.getId(), transaction.getDate(), new Date(), transaction.getDescription(), transaction.getType().toString());
 		
 		// delete old participant records
-		tabDao.deleteParticipantsForTransaction(transaction.getId());
+		tabDao.deleteContributionsForTransaction(transaction.getId());
 		
 		// store particiants and their expenses
 		List<TransactionContribution> contributions = transaction.getParticipants();
 		for (TransactionContribution contribution : contributions) {
-			tabDao.insertTransactionParticipant(transactionId, contribution.getParticipant(), contribution.getAmount());
+			tabDao.insertTransactionContribution(transactionId, contribution.getParticipant(), contribution.getAmount());
 		}
 		
 		// commit database transaction

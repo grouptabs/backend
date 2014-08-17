@@ -63,8 +63,8 @@ public interface TabDAO extends Transactional<TabDAO> {
 	@SqlUpdate("UPDATE Transaction SET date = :date, timestamp = :timestamp, description = :description, type = :type WHERE id = :id")
 	void updateTransaction(@Bind("id") Long id, @Bind("date") Date date, @Bind("timestamp") Date timestamp, @Bind("description") String description, @Bind("type") String type);
 	
-	@SqlUpdate("DELETE FROM Participant WHERE transactionId = :transactionId")
-	void deleteParticipantsForTransaction(@Bind("id") Long id);
+	@SqlUpdate("DELETE FROM Contribution WHERE transactionId = :transactionId")
+	void deleteContributionsForTransaction(@Bind("id") Long id);
 	
 	@SqlUpdate("DELETE FROM Transaction WHERE id = :id")
 	void deleteTransaction(@Bind("id") Long id);
@@ -78,8 +78,8 @@ public interface TabDAO extends Transactional<TabDAO> {
 			@Bind("description") String description,
 			@Bind("type") String type);
 	
-	@SqlUpdate("INSERT INTO Participant (transactionId, participant, amount) values (:transactionId, :participant, :amount)")
-	public void insertTransactionParticipant(
+	@SqlUpdate("INSERT INTO Contribution (transactionId, participant, amount) values (:transactionId, :participant, :amount)")
+	public void insertTransactionContribution(
 			@Bind("transactionId") Long transactionId,
 			@Bind("participant") String participant,
 			@Bind("amount") BigDecimal amount);
