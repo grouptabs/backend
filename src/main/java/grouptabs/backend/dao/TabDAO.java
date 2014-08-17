@@ -46,8 +46,8 @@ public interface TabDAO extends Transactional<TabDAO> {
 	public Transaction getTransaction(@Bind("id") Long id);
 	
 	@MapResultAsBean
-	@SqlQuery("SELECT participant, amount FROM Participant WHERE transactionId = :transactionId")
-	public List<TransactionContribution> getParticipantsForTransaction(@Bind("transactionId") Long transactionId);
+	@SqlQuery("SELECT participant, amount FROM Contribution WHERE transactionId = :transactionId")
+	public List<TransactionContribution> getContributionsForTransaction(@Bind("transactionId") Long transactionId);
 	
 	@MapResultAsBean
 	@SqlQuery("SELECT * FROM Transaction WHERE tabKey = :tabKey ORDER BY DATE DESC, ID DESC LIMIT :limit")

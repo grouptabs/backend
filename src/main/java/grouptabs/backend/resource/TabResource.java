@@ -127,7 +127,7 @@ public class TabResource {
 	@Path("/{tabKey}/transactions/{transactionId}")
 	public Response getTransaction(@PathParam("tabKey") String tabKey, @PathParam("transactionId") Long transactionId) {
 		Transaction transaction = tabDao.getTransaction(transactionId);
-		transaction.setParticipants(tabDao.getParticipantsForTransaction(transaction.getId()));
+		transaction.setParticipants(tabDao.getContributionsForTransaction(transaction.getId()));
 		return Response.ok(transaction).build();
 	}
 	
