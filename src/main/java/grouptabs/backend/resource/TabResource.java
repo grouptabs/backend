@@ -94,6 +94,12 @@ public class TabResource {
 		else {
 			transactions = tabDao.getLastTransactionsForTab(tabDao.getTabId(tabKey), n);
 		}
+
+		// Add contributions to each transaction.
+		for (Transaction transaction : transactions) {
+			transaction.setParticipants(tabDao.getContributionsForTransaction(transaction.getId()));
+		}
+
 		return Response.ok(transactions).build();
 	}
 	
