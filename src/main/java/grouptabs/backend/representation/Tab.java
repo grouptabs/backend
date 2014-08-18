@@ -8,7 +8,7 @@ public class Tab {
 	private Integer id;
 	private String key;
 	private String name;
-	private Map<Integer, String> users;
+	private Map<String, Integer> users;
 	
 	public Tab() {
 	}
@@ -46,14 +46,14 @@ public class Tab {
 	}
 
 	/**
-	 * @return a map containing the IDs and the local names of the users of the tab
+	 * @return a map containing the local names of the users of the tab and the user ID, if the user is registered
 	 */
-	public Map<Integer, String> getUsers() {
+	public Map<String, Integer> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Map<Integer, String> users) {
-		this.users = users;
+	public void setUsers(Map<String, Integer> participants) {
+		this.users = participants;
 	}
 	
 	

@@ -60,9 +60,9 @@ public class TabResource {
 		Tab tab = tabDao.getTab(tabKey);
 		
 		List<TabUser> tabUsers = tabDao.getTabUsers(tab.getId());
-		Map<Integer, String> userMap = new TreeMap<Integer, String>();
+		Map<String, Integer> userMap = new TreeMap<String, Integer>();
 		for (TabUser tabUser : tabUsers) {
-			userMap.put(tabUser.getUserId(), tabUser.getLocalName());
+			userMap.put(tabUser.getLocalName(), tabUser.getUserId());
 		}
 		tab.setUsers(userMap);
 		
