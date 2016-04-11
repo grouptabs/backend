@@ -42,14 +42,14 @@ http://localhost:8080/users
 [
   {
     "id": 1,
-    "email": "tliero@gmx.net",
+    "email": "",
     "name": "Tilman",
     "password": "pw",
     "tabs": null
   },
   {
     "id": 2,
-    "email": "martin@siarp.de",
+    "email": "",
     "name": "Martin",
     "password": "pw",
     "tabs": null
@@ -73,7 +73,7 @@ http://localhost:8080/users
 http://localhost:8080/users/2
 {
   "id": 2,
-  "email": "martin@siarp.de",
+  "email": "",
   "name": "Martin",
   "password": "pw",
   "tabs": {
